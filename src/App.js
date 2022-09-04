@@ -1,12 +1,14 @@
 import './styles/reset.css';
 import './styles/screen.css';
+import FileDirectory from './components/FileDirectory';
+import Main from './components/Main';
+import { useState } from 'react';
 
 function App() {
   return (
-    <div className="App">
-      <main className='bg-blue-300'>
-        hello test
-      </main>
+    <div className="App flex h-screen">
+      <FileDirectory />
+      <Main />
     </div>
   );
 }
