@@ -1,13 +1,13 @@
 import React from 'react'
 
-const File = ({ name }) => {
+const File = (file) => {
     function selectFile() {
         // send ipc command
-        window.api.send('file-change', name);
+        window.api.send('file-change', file);
     }
 
     return (
-        <div className='file ml-4' onClick={() => selectFile()}>{name}</div>
+        <div className='file ml-4' onClick={() => selectFile()}>{file.name}</div>
     )
 }
 

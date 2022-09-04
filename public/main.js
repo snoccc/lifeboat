@@ -61,8 +61,13 @@ ipcMain.on("file-change", (event, args) => {
     win.webContents.send("file-change", args);
 });
 
-ipcMain.on('get-file-contents', (event, filename) => {
-    const contents = fs.readFileSync(path.join(__dirname, 'testdir', 'hello.txt'), { encoding: 'utf8', flag: 'r' })
-    console.log(contents)
-    event.returnValue = contents;
+ipcMain.on('get-file-contents', (event, path) => {
+    if (path) {
+        const contents = fs.readFileSync(path, { encoding: 'utf8', flag: 'r' })
+        console.log(contents)
+        event.returnValue = contents;
+    }
+    else {
+        event.returnValue = 'lol';
+    }
 });

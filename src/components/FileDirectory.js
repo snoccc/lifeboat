@@ -14,7 +14,7 @@ const FileDirectory = () => {
                 <>
                     {child.type === 'folder'
                         ? <Folder key={child.name} name={child.name} children={child.children} />
-                        : <File name={child.name} key={child.name} />}
+                        : <File key={child.name} {...child} />}
                 </>
             ))}
         </div>
