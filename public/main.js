@@ -30,6 +30,12 @@ app.on('window-all-closed', () => {
     }
 });
 
+ipcMain.on('get-files', (event) => {
+    const dir = path.join(__dirname, 'testdir');
+    const items = fs.readdirSync(dir);
+    event.returnValue = items;
+});
+
 ipcMain.on('hello', () => {
     console.log('Hello World!')
-})
+});

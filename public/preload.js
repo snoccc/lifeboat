@@ -1,5 +1,7 @@
-const { ipcRenderer } = require('electron');
+const { contextBridge, ipcRenderer } = require('electron');
 
-document.addEventListener('DOMContentLoaded', () => {
-    ipcRenderer.send('hello');
-})
+const API = {
+    getFiles: () => ipcRenderer.sendSync('get-files')
+}
+
+contextBridge.exposeInMainWorld('api', API);
