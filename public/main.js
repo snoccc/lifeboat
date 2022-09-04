@@ -30,8 +30,26 @@ app.on('window-all-closed', () => {
     }
 });
 
+function dirTree(filename) {
+    const stats = fs.lstatSync(filename);
+    const info = {
+        path: filename,
+        name: path.basename(filename)
+    };
+
+    if (stats.isDirectory()) {
+        info.type = "folder";
+        info.children = fs.readdirSync(filename).map(child => dirTree(filename + '/' + child));
+    } else {
+        info.type = "file";
+    }
+
+    return info;
+}
+
 ipcMain.on('get-directory', (event) => {
     const dir = path.join(__dirname, 'testdir');
-    const items = fs.readdirSync(dir);
-    event.returnValue = { name: dir, files: items };
+
+    const tree = dirTree(dir);
+    event.returnValue = tree;
 });
