@@ -23,12 +23,3 @@ const FileDirectory = () => {
 
 export default FileDirectory;
 
-
-/*
-folder
-    test
-folder2
-    meow
-hello.txt
-
-*/

@@ -2,12 +2,15 @@ let { app, BrowserWindow, ipcMain } = require("electron")
 const path = require('path');
 const fs = require('fs')
 
+let win;
+
 const createWindow = () => {
-    const win = new BrowserWindow({
-        width: 800,
+    win = new BrowserWindow({
+        width: 1200,
         height: 600,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
+            contextIsolation: true
         },
     });
 
@@ -52,4 +55,8 @@ ipcMain.on('get-directory', (event) => {
 
     const tree = dirTree(dir);
     event.returnValue = tree;
+});
+
+ipcMain.on("file-change", (event, args) => {
+    win.webContents.send("file-change", args);
 });
