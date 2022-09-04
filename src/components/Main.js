@@ -9,8 +9,8 @@ const Main = () => {
     });
 
     return (
-        <main className='grow-[3]'>
-            <div className='text-center'>{filename}</div>
+        <main className='w-full flex justify-center'>
+            <div>{filename}</div>
         </main>
     )
 }

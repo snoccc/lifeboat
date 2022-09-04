@@ -7,7 +7,7 @@ const FileDirectory = () => {
     const children = directory.children;
 
     return (
-        <div className='bg-side grow-[1] clr-gray'>
+        <div className='bg-side clr-gray'>
             <div className='bg-main text-white'>{directory.name}</div>
 
             {children && children.map(child => (

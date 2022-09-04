@@ -6,7 +6,7 @@ const Folder = (props) => {
     const files = props.children.filter(child => child.type === 'file');
 
     return (
-        <div className='ml-4'>
+        <div className='ml-4 pr-8'>
             <div className='file'>{props.name}</div>
             {folders && folders.map(folder => <Folder key={folder.name} name={folder.name} children={folder.children} />)}
             {files && files.map(file => <File name={file.name} key={file.name} />)}
