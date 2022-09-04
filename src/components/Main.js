@@ -12,7 +12,7 @@ const Main = () => {
     return (
         <main className='w-full flex flex-col'>
             <div className='text-center'>{filename}</div>
-            <FileContents content="hello there" />
+            <FileContents filename={filename} />
         </main>
     )
 }

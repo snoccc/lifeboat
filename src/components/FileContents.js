@@ -4,10 +4,12 @@ import { useEffect } from 'react';
 import Prism from "prismjs";
 import "prismjs/themes/prism-tomorrow.css";
 
-const FileContents = ({ content }) => {
+const FileContents = ({ filename }) => {
     useEffect(() => {
         Prism.highlightAll();
     }, []);
+
+    const content = window.api.getFileContents(filename);
 
     return (
         <div className="code">
