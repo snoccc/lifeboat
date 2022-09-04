@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState } from 'react';
+import FileContents from './FileContents';
 
 const Main = () => {
     const [filename, setFilename] = useState();
@@ -9,8 +10,9 @@ const Main = () => {
     });
 
     return (
-        <main className='w-full flex justify-center'>
-            <div>{filename}</div>
+        <main className='w-full flex flex-col'>
+            <div className='text-center'>{filename}</div>
+            <FileContents content="hello there" />
         </main>
     )
 }
