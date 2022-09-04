@@ -1,8 +1,12 @@
 import React from 'react'
 
 const File = ({ name }) => {
+    function selectFile() {
+        // send ipc command
+    }
+
     return (
-        <div className='ml-4'>{name}</div>
+        <div className='file ml-4' onClick={() => selectFile()}>{name}</div>
     )
 }
 

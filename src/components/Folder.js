@@ -7,7 +7,7 @@ const Folder = (props) => {
 
     return (
         <div className='ml-4'>
-            <div>{props.name}</div>
+            <div className='file'>{props.name}</div>
             {folders && folders.map(folder => <Folder key={folder.name} name={folder.name} children={folder.children} />)}
             {files && files.map(file => <File name={file.name} key={file.name} />)}
         </div>

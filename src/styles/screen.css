@@ -19,6 +19,11 @@ body {
     background: hsl(0, 0%, 12%);
 }
 
+.file:hover {
+    color: #d9d9d9;
+    cursor: pointer;
+}
+
 .clr-gray {
-    color: #999999;
+    color: hsl(0, 0%, 65%);
 }
