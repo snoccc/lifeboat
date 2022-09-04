@@ -1,7 +1,7 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 const API = {
-    getFiles: () => ipcRenderer.sendSync('get-files')
+    getDir: () => ipcRenderer.sendSync('get-directory')
 }
 
 contextBridge.exposeInMainWorld('api', API);

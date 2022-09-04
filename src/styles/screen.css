@@ -18,3 +18,7 @@ body {
 .bg-side {
     background: hsl(0, 0%, 12%);
 }
+
+.clr-gray {
+    color: #999999;
+}
