@@ -1,8 +1,12 @@
 all:
-  - file-info
-  - mime
-  - strings
-  - binwalk
+  file:
+    - file ${file}
+  mime-type:
+    - file --mime-type ${file}
+  strings:  
+    - strings ${file}
+  binwalk:
+    - binwalk ${file}
 image:
   - exif
   - repair
