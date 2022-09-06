@@ -2,7 +2,7 @@ let { app, BrowserWindow, ipcMain } = require("electron")
 const path = require('path');
 const fs = require('fs');
 const yaml = require('js-yaml');
-const { exec } = require("child_process");
+const { exec, execSync } = require("child_process");
 
 let win;
 
@@ -66,9 +66,18 @@ function testYaml() {
                 console.log('executing ' + command)
                 exec(command, { shell: "bash", env: { 'WSLENV': 'file', 'file': 'public/testdir/hello.txt' } }, (error, stdout, stderr) => {
                     if (error) { console.log(`error: ${error.message}`); return; }
-                    console.log(stdout);
+
+                    fs.appendFile(`public/data/${script}.out`, stdout, (err) => {
+                        if (err) {
+                            console.log(err);
+                        }
+                        else {
+                            console.log("file written successfully");
+                        }
+                    })
                 });
             });
+
         }
 
 
@@ -89,8 +98,8 @@ ipcMain.on('get-directory', (event) => {
     event.returnValue = tree;
 });
 
-ipcMain.on("file-change", (event, args) => {
-    win.webContents.send("file-change", args);
+ipcMain.on("file-change", (event, file) => {
+    win.webContents.send("file-change", file);
 });
 
 ipcMain.on('get-file-contents', (event, path) => {
