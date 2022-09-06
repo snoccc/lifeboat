@@ -1,0 +1,24 @@
+all:
+  - file-info
+  - mime
+  - strings
+  - binwalk
+image:
+  - exif
+  - repair
+pcap:
+  - networkminer
+apk:
+  - unpack-apk
+packages:
+  - find-outdated
+pwn:
+  - checksec
+  - dogbolt-main
+  - get-template
+crypto:
+  - export2john
+  - detect-crypto
+  - xorsearch
+unknown:
+  - virustotal
