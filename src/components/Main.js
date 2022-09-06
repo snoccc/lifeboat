@@ -9,7 +9,7 @@ const Main = () => {
         setFile(file);
     });
 
-    console.log('file ====', file)
+    window.api.testYaml();
 
     return (
         <main className='w-full flex flex-col'>

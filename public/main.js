@@ -1,6 +1,7 @@
 let { app, BrowserWindow, ipcMain } = require("electron")
 const path = require('path');
-const fs = require('fs')
+const fs = require('fs');
+const yaml = require('js-yaml');
 
 let win;
 
@@ -49,6 +50,20 @@ function dirTree(filename) {
 
     return info;
 }
+
+function testYaml() {
+    try {
+        const file = path.join(__dirname, 'config.yml')
+        const doc = yaml.load(fs.readFileSync(file, 'utf8'));
+        console.log(doc);
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+ipcMain.on('test-yaml', (event) => {
+    testYaml();
+});
 
 ipcMain.on('get-directory', (event) => {
     const dir = path.join(__dirname, 'testdir');
