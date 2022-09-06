@@ -5,6 +5,7 @@ const yaml = require('js-yaml');
 const { exec, execSync } = require("child_process");
 
 let win;
+const YAML_CONFIG = yaml.load(fs.readFileSync(path.join(__dirname, 'config.yml'), 'utf8'))
 
 const createWindow = () => {
     win = new BrowserWindow({
@@ -52,31 +53,48 @@ function dirTree(filename) {
     return info;
 }
 
-function testYaml() {
-    // const target = path.join(__dirname, 'testdir/hello.txt');
+function getRelativePath(path) {
+    return path.substring(path.indexOf("public")).replace('\\', '/');
+}
+
+function appendToFile(file, contents) {
+    fs.appendFile(file, contents, (err) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            console.log("file written successfully");
+        }
+    })
+
+}
+function runScripts(file) {
+    const inputFile = getRelativePath(file.path);
+
     try {
-        const config = path.join(__dirname, 'config.yml')
-        const doc = yaml.load(fs.readFileSync(config, 'utf8'));
-        const all = doc.all;
+        const all = YAML_CONFIG.all;
 
         for (const script in all) {
-            const commands = doc.all[script];
+            const outputFile = `public/data/${script}.out`;
 
-            commands.forEach(command => {
-                console.log('executing ' + command)
-                exec(command, { shell: "bash", env: { 'WSLENV': 'file', 'file': 'public/testdir/hello.txt' } }, (error, stdout, stderr) => {
-                    if (error) { console.log(`error: ${error.message}`); return; }
+            fs.stat(outputFile, function (err, stat) {
+                if (err == null) {
+                    console.log('File exists');
+                }
+                else {
+                    const commands = all[script];
 
-                    fs.appendFile(`public/data/${script}.out`, stdout, (err) => {
-                        if (err) {
-                            console.log(err);
-                        }
-                        else {
-                            console.log("file written successfully");
-                        }
-                    })
-                });
+                    commands.forEach(command => {
+                        exec(command, { shell: "bash", env: { 'WSLENV': 'file', 'file': inputFile } }, (error, stdout, stderr) => {
+                            if (error) { console.log(`error: ${error.message}`); return; }
+
+                            appendToFile(outputFile, stdout);
+                        });
+                    });
+
+                }
             });
+
 
         }
 
@@ -87,8 +105,8 @@ function testYaml() {
     }
 }
 
-ipcMain.on('test-yaml', (event) => {
-    testYaml();
+ipcMain.on('run-scripts', (event, file) => {
+    runScripts(file);
 });
 
 ipcMain.on('get-directory', (event) => {

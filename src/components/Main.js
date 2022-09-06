@@ -6,7 +6,7 @@ const Main = () => {
     const [file, setFile] = useState();
     window.api.receive('file-change', (file) => {
         setFile(file);
-        window.api.testYaml();
+        window.api.runScripts(file);
     });
 
     return (
