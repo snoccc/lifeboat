@@ -2,6 +2,7 @@ let { app, BrowserWindow, ipcMain } = require("electron")
 const path = require('path');
 const fs = require('fs');
 const yaml = require('js-yaml');
+const { exec } = require("child_process");
 
 let win;
 
@@ -52,10 +53,26 @@ function dirTree(filename) {
 }
 
 function testYaml() {
+    // const target = path.join(__dirname, 'testdir/hello.txt');
     try {
-        const file = path.join(__dirname, 'config.yml')
-        const doc = yaml.load(fs.readFileSync(file, 'utf8'));
-        console.log(doc);
+        const config = path.join(__dirname, 'config.yml')
+        const doc = yaml.load(fs.readFileSync(config, 'utf8'));
+        const all = doc.all;
+
+        for (const script in all) {
+            const commands = doc.all[script];
+
+            commands.forEach(command => {
+                console.log('executing ' + command)
+                exec(command, { shell: "bash", env: { 'WSLENV': 'file', 'file': 'public/testdir/hello.txt' } }, (error, stdout, stderr) => {
+                    if (error) { console.log(`error: ${error.message}`); return; }
+                    console.log(stdout);
+                });
+            });
+        }
+
+
+
     } catch (e) {
         console.log(e);
     }

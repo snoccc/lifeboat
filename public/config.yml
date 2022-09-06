@@ -1,12 +1,12 @@
 all:
   file:
-    - file ${file}
+    - file $file
   mime-type:
-    - file --mime-type ${file}
+    - file --mime-type $file
   strings:  
-    - strings ${file}
+    - strings $file
   binwalk:
-    - binwalk ${file}
+    - binwalk $file
 image:
   - exif
   - repair
