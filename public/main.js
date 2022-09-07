@@ -66,8 +66,8 @@ function appendToFile(file, contents) {
             console.log("file written successfully");
         }
     })
-
 }
+
 function runScripts(file) {
     const inputFile = getRelativePath(file.path);
 
@@ -91,22 +91,21 @@ function runScripts(file) {
                             appendToFile(outputFile, stdout);
                         });
                     });
-
                 }
             });
-
-
         }
-
-
-
     } catch (e) {
         console.log(e);
     }
 }
 
+function generateCards(file) {
+
+}
+
 ipcMain.on('run-scripts', (event, file) => {
     runScripts(file);
+    generateCards(file);
 });
 
 ipcMain.on('get-directory', (event) => {
