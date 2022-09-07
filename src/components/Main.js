@@ -5,14 +5,14 @@ import Card from './Card';
 
 const Main = () => {
     const [file, setFile] = useState();
-    const [out, setOut] = useState();
+    const [cards, setCards] = useState();
+
     window.api.receive('file-change', (file) => {
         setFile(file);
-        // window.api.runScripts(file);
-        // get back info to make the cards
-
-        setOut({
-
+        window.api.runScripts(file);
+        window.api.receive('cards', (cards) => {
+            setCards(cards);
+            console.log('received cards => ' + cards);
         })
     });
 

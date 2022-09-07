@@ -58,7 +58,7 @@ function getRelativePath(path) {
 }
 
 function appendToFile(file, contents) {
-    fs.appendFile(file, contents, (err) => {
+    fs.appendFileSync(file, contents, (err) => {
         if (err) {
             console.log(err);
         }
@@ -79,7 +79,7 @@ function runScripts(file) {
 
             fs.stat(outputFile, function (err, stat) {
                 if (err == null) {
-                    console.log('File exists');
+                    console.log('File exists - cmd');
                 }
                 else {
                     const commands = all[script];
@@ -100,7 +100,17 @@ function runScripts(file) {
 }
 
 function generateCards(file) {
+    const path = file.path;
 
+    fs.stat('C:\\Users\\Arsen\\Desktop\\lifeboat\\public\\data\\file.out', function (err, stat) {
+        if (err == null) {
+            win.webContents.send("cards", "hello");
+
+        }
+        else {
+            console.log('File doesn\'t exist');
+        }
+    });
 }
 
 ipcMain.on('run-scripts', (event, file) => {
@@ -115,8 +125,13 @@ ipcMain.on('get-directory', (event) => {
     event.returnValue = tree;
 });
 
+// COMMUNICATION
 ipcMain.on("file-change", (event, file) => {
     win.webContents.send("file-change", file);
+});
+
+ipcMain.on("cards", (event, cards) => {
+    win.webContents.send("cards", cards);
 });
 
 ipcMain.on('get-file-contents', (event, path) => {
