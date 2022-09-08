@@ -101,11 +101,12 @@ function runScripts(file) {
 
 function generateCards(file) {
     const path = file.path;
+    const temp = 'C:\\Users\\Arsen\\Desktop\\lifeboat\\public\\data\\file.out';
 
-    fs.stat('C:\\Users\\Arsen\\Desktop\\lifeboat\\public\\data\\file.out', function (err, stat) {
+    fs.stat(temp, function (err, stat) {
         if (err == null) {
-            win.webContents.send("cards", "hello");
-
+            const data = fs.readFileSync(temp, { encoding: 'utf8', flag: 'r' })
+            win.webContents.send("cards", [{ name: file.name, body: data }]);
         }
         else {
             console.log('File doesn\'t exist');

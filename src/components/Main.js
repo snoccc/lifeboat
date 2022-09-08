@@ -11,6 +11,7 @@ const Main = () => {
         setFile(file);
         window.api.runScripts(file);
         window.api.receive('cards', (cards) => {
+            // cards = "transform it here" // (cards map (card => ...card))
             setCards(cards);
             console.log('received cards => ' + cards);
         })
@@ -21,7 +22,7 @@ const Main = () => {
             <div className='text-center'>{file && file.name}</div>
             {file && <FileContents file={file} />}
 
-            {/* <Card name="file" body="hello    lol        test" /> */}
+            {cards && cards.map(card => <Card {...card} />)}
         </main>
     )
 }
