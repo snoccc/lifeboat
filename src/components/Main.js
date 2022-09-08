@@ -8,21 +8,18 @@ const Main = () => {
     const [cards, setCards] = useState();
 
     window.api.receive('file-change', (file) => {
-        setFile(file);
-        window.api.runScripts(file);
-        window.api.receive('cards', (cards) => {
-            // cards = "transform it here" // (cards map (card => ...card))
+        window.api.generateCards(file).then(cards => {
+            setFile(file);
             setCards(cards);
-            console.log('received cards => ' + cards);
-        })
+        });
     });
 
     return (
         <main className='w-full flex flex-col text-xl'>
             <div className='text-center'>{file && file.name}</div>
-            {file && <FileContents file={file} />}
+            {file && <FileContents file={file} key="file" />}
 
-            {cards && cards.map(card => <Card {...card} />)}
+            {cards && cards.map(card => <Card {...card} key={card.name} />)}
         </main>
     )
 }

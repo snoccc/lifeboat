@@ -68,7 +68,8 @@ function appendToFile(file, contents) {
     })
 }
 
-function runScripts(file) {
+async function runScripts(file) {
+    console.log("runScripts()");
     const inputFile = getRelativePath(file.path);
 
     try {
@@ -80,6 +81,7 @@ function runScripts(file) {
             fs.stat(outputFile, function (err, stat) {
                 if (err == null) {
                     console.log('File exists - cmd');
+                    return;
                 }
                 else {
                     const commands = all[script];
@@ -94,29 +96,35 @@ function runScripts(file) {
                 }
             });
         }
+
     } catch (e) {
         console.log(e);
     }
 }
 
-function generateCards(file) {
-    const path = file.path;
-    const temp = 'C:\\Users\\Arsen\\Desktop\\lifeboat\\public\\data\\file.out';
+async function generateCards(file) {
+    await runScripts(file);
 
-    fs.stat(temp, function (err, stat) {
-        if (err == null) {
-            const data = fs.readFileSync(temp, { encoding: 'utf8', flag: 'r' })
-            win.webContents.send("cards", [{ name: file.name, body: data }]);
-        }
-        else {
-            console.log('File doesn\'t exist');
-        }
-    });
+    return new Promise(res => {
+        const path = file.path;
+        const temp = 'C:\\Users\\Arsen\\Desktop\\lifeboat\\public\\data\\file.out';
+
+        fs.stat(temp, function (err, stat) {
+            if (err == null) {
+                const data = fs.readFileSync(temp, { encoding: 'utf8', flag: 'r' })
+                res([{ name: file.name, body: data }]);
+            }
+            else {
+                console.log('File doesn\'t exist');
+                return;
+            }
+        });
+    })
 }
 
-ipcMain.on('run-scripts', (event, file) => {
-    runScripts(file);
-    generateCards(file);
+ipcMain.handle('generate-cards', async (event, file) => {
+    const cards = await generateCards(file);
+    return cards;
 });
 
 ipcMain.on('get-directory', (event) => {
