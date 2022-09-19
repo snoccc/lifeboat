@@ -3,7 +3,6 @@ const path = require('path');
 const fs = require('fs');
 const yaml = require('js-yaml');
 const { exec, execSync } = require("child_process");
-const { profile } = require("console");
 
 let win;
 const YAML_CONFIG = yaml.load(fs.readFileSync(path.join(__dirname, 'config.yml'), 'utf8'))
@@ -114,22 +113,18 @@ async function generateCards(file) {
 
     return new Promise(res => {
         const dir = "public/data/" + file.relativePath;   // includes "/testdir"
+        const files = fs.readdirSync(dir);
 
-        fs.stat(dir, function (err, stat) {
-            if (err == null) {
+        const result = [];
 
-                const outFile = getOutFile(file, "file"); // <script>.out
-                console.log("reading " + outFile);
+        files.forEach(file => {
+            file = path.join(dir, file);
+            const data = fs.readFileSync(file, { encoding: 'utf8', flag: 'r' })
+            result.push({ name: path.parse(file).name, body: data })
+        })
 
-                const data = fs.readFileSync(outFile, { encoding: 'utf8', flag: 'r' })
-                res([{ name: file.name, body: data }]);
-            }
-            else {
-                console.log('File doesn\'t exist');
-                return;
-            }
-        });
-    })
+        res(result);
+    });
 }
 
 ipcMain.handle('generate-cards', async (event, file) => {
