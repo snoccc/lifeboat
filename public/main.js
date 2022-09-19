@@ -3,6 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const yaml = require('js-yaml');
 const { exec, execSync } = require("child_process");
+const { profile } = require("console");
 
 let win;
 const YAML_CONFIG = yaml.load(fs.readFileSync(path.join(__dirname, 'config.yml'), 'utf8'))
@@ -40,6 +41,7 @@ function dirTree(filename) {
     const stats = fs.lstatSync(filename);
     const info = {
         path: filename,
+        relativePath: path.relative(__dirname, filename).replace(/\\/g, "/"),
         name: path.basename(filename)
     };
 
@@ -53,30 +55,30 @@ function dirTree(filename) {
     return info;
 }
 
-function getRelativePath(path) {
-    return path.substring(path.indexOf("public")).replace('\\', '/');
-}
-
 function appendToFile(file, contents) {
-    fs.appendFileSync(file, contents, (err) => {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            console.log("file written successfully");
-        }
-    })
+    console.log('writing to ' + file)
+
+    fs.mkdir(path.dirname(file), { recursive: true }, function (err) {
+        if (err) return;
+
+        fs.writeFileSync(file, contents, (err) => {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                console.log("file written successfully");
+            }
+
+        });
+    });
 }
 
 async function runScripts(file) {
-    console.log("runScripts()");
-    const inputFile = getRelativePath(file.path);
-
     try {
         const all = YAML_CONFIG.all;
 
         for (const script in all) {
-            const outputFile = `public/data/${script}.out`;
+            const outputFile = getOutFile(file, script) // needs to have the directories
 
             fs.stat(outputFile, function (err, stat) {
                 if (err == null) {
@@ -86,10 +88,11 @@ async function runScripts(file) {
                 else {
                     const commands = all[script];
 
-                    commands.forEach(command => {
-                        exec(command, { shell: "bash", env: { 'WSLENV': 'file', 'file': inputFile } }, (error, stdout, stderr) => {
+                    commands.forEach(command => {                                   // needs to be relative input file
+                        exec(command, { shell: "bash", env: { 'WSLENV': 'file', 'file': "public/" + file.relativePath } }, (error, stdout, stderr) => {
                             if (error) { console.log(`error: ${error.message}`); return; }
 
+                            console.log(stdout)
                             appendToFile(outputFile, stdout);
                         });
                     });
@@ -102,16 +105,23 @@ async function runScripts(file) {
     }
 }
 
+function getOutFile(file, script) {  // gets relative path to what it should read (for file in dir where file = <script>.out)
+    return "public/data/" + file.relativePath + `/${script}.out`;
+}
+
 async function generateCards(file) {
-    await runScripts(file);
+    await runScripts(file); // the file object
 
     return new Promise(res => {
-        const path = file.path;
-        const temp = 'C:\\Users\\Arsen\\Desktop\\lifeboat\\public\\data\\file.out';
+        const dir = "public/data/" + file.relativePath;   // includes "/testdir"
 
-        fs.stat(temp, function (err, stat) {
+        fs.stat(dir, function (err, stat) {
             if (err == null) {
-                const data = fs.readFileSync(temp, { encoding: 'utf8', flag: 'r' })
+
+                const outFile = getOutFile(file, "file"); // <script>.out
+                console.log("reading " + outFile);
+
+                const data = fs.readFileSync(outFile, { encoding: 'utf8', flag: 'r' })
                 res([{ name: file.name, body: data }]);
             }
             else {
@@ -131,6 +141,7 @@ ipcMain.on('get-directory', (event) => {
     const dir = path.join(__dirname, 'testdir');
 
     const tree = dirTree(dir);
+    console.log(JSON.stringify(tree))
     event.returnValue = tree;
 });
 

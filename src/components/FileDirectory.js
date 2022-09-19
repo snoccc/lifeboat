@@ -6,7 +6,7 @@ const FileDirectory = () => {
     const directory = window.api.getDir();
     const children = directory.children;
 
-    console.log(children);
+    children.filter(file => file.type === "file").forEach(file => window.api.generateCards(file));
 
     return (
         <div className='bg-side clr-gray'>
