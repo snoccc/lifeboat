@@ -1,0 +1,5 @@
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+0             0x0             Libpcap capture file, little-endian, version 2.4, Ethernet, snaplen: 262144
+

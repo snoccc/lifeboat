@@ -1,0 +1,24 @@
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+589           0x24D           Neighborly text, "neighbors = []_rows"
+1436          0x59C           Neighborly text, "neighbors(self, grid):self.total_rows - 1 and not grid[self.row + 1][self.col].is_barrier(): # DOWN"
+1467          0x5BB           Neighborly text, "neighbors = []d[self.row + 1][self.col].is_barrier(): # DOWN"
+1586          0x632           Neighborly text, "neighbors.append(grid[self.row + 1][self.col]) > 0 and not grid[self.row - 1][self.col].is_barrier(): # UP"
+1719          0x6B7           Neighborly text, "neighbors.append(grid[self.row - 1][self.col]) < self.total_rows - 1 and not grid[self.row][self.col + 1].is_barrier(): # RIGHT"
+1873          0x751           Neighborly text, "neighbors.append(grid[self.row][self.col + 1]) > 0 and not grid[self.row][self.col - 1].is_barrier(): # LEFT"
+2008          0x7D8           Neighborly text, "neighbors.append(grid[self.row][self.col - 1])elf, other):"
+2999          0xBB7           Neighborly text, "neighbor in current.neighbors:nt] + 1"
+3019          0xBCB           Neighborly text, "neighbors:p_g_score < g_score[neighbor]:"
+3102          0xC1E           Neighborly text, "neighbor]:hbor] = temp_g_score"
+3128          0xC38           Neighborly text, "neighbor] = currentf_score[neighbor] = temp_g_score + h(neighbor.get_pos(), end.get_pos())"
+3161          0xC59           Neighborly text, "neighbor] = temp_g_score+ h(neighbor.get_pos(), end.get_pos())"
+3199          0xC7F           Neighborly text, "neighbor] = temp_g_score + h(neighbor.get_pos(), end.get_pos())"
+3228          0xC9C           Neighborly text, "neighbor.get_pos(), end.get_pos())_set_hash:"
+3271          0xCC7           Neighborly text, "neighbor not in open_set_hash:put((f_score[neighbor], count, neighbor))"
+3347          0xD13           Neighborly text, "neighbor], count, neighbor))"
+3365          0xD25           Neighborly text, "neighbor))e_open()"
+3400          0xD48           Neighborly text, "neighbor)t != start:"
+3416          0xD58           Neighborly text, "neighbor.make_open()current.make_closed()"
+5326          0x14CE          Neighborly text, "neighbors(grid) width), grid, start, end)"
+
