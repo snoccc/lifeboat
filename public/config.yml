@@ -7,13 +7,16 @@ all:
   #   - strings "$file"
   # binwalk:
   #   - binwalk "$file"
-image:
-  - exif
-  - repair
-pcap:
-  - networkminer
-apk:
-  - unpack-apk
+mime-types:
+  image:
+    - exif
+  # - repair
+extensions:
+  pcap:
+    - networkminer
+  apk:
+    - unpack-apk  
+
 packages:
   - find-outdated
 pwn:
