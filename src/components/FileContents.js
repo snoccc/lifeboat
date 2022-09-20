@@ -9,7 +9,8 @@ const FileContents = ({ file }) => {
         Prism.highlightAll();
     }, []);
 
-    const content = window.api.getFileContents(file.path);
+    // const content = window.api.getFileContents(file.path);
+    const content = "here will come the preview";
 
     return (
         <div className="code">

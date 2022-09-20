@@ -55,8 +55,6 @@ function dirTree(filename) {
 }
 
 function appendToFile(file, contents) {
-    console.log('writing to ' + file)
-
     fs.mkdir(path.dirname(file), { recursive: true }, function (err) {
         if (err) return;
 
@@ -91,7 +89,6 @@ async function runScripts(file) {
                         exec(command, { shell: "bash", env: { 'WSLENV': 'file', 'file': "public/" + file.relativePath } }, (error, stdout, stderr) => {
                             if (error) { console.log(`error: ${error.message}`); return; }
 
-                            console.log(stdout)
                             appendToFile(outputFile, stdout);
                         });
                     });
@@ -152,7 +149,6 @@ ipcMain.on("cards", (event, cards) => {
 ipcMain.on('get-file-contents', (event, path) => {
     if (path) {
         const contents = fs.readFileSync(path, { encoding: 'utf8', flag: 'r' })
-        console.log(contents)
         event.returnValue = contents;
     }
     else {

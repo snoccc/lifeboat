@@ -3,10 +3,10 @@ all:
     - file "$file"
   mime-type:
     - file --mime-type "$file"
-  strings:  
-    - strings "$file"
-  binwalk:
-    - binwalk "$file"
+  # strings:  
+  #   - strings "$file"
+  # binwalk:
+  #   - binwalk "$file"
 image:
   - exif
   - repair

@@ -2,12 +2,12 @@ import React from 'react'
 import Folder from './Folder';
 import File from './File';
 
+const directory = window.api.getDir();
+const children = directory.children;
+
+children.filter(file => file.type === "file").forEach(file => window.api.generateCards(file));
+
 const FileDirectory = () => {
-    const directory = window.api.getDir();
-    const children = directory.children;
-
-    children.filter(file => file.type === "file").forEach(file => window.api.generateCards(file));
-
     return (
         <div className='bg-side clr-gray'>
             <div className='bg-main text-white'>{directory.name}</div>
