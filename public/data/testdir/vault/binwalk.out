@@ -1,6 +1,0 @@
-
-DECIMAL       HEXADECIMAL     DESCRIPTION
---------------------------------------------------------------------------------
-0             0x0             ELF, 64-bit LSB executable, AMD x86-64, version 1 (SYSV)
-588157        0x8F97D         Copyright string: "Copyright (C) 1996-2018 the UPX Team. All Rights Reserved. $"
-
