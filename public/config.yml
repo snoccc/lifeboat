@@ -11,10 +11,20 @@ mime-types:
   image:
     - exif
   # - repair
+  audio:
+    - audio
+  video:
+    - video
+  
 extensions:
-  pcap:
+  .pcap:
     - networkminer
-  apk:
+    - networkminer
+    - dlmkf
+    - aaa
+    - networkminer
+    - b
+  .apk:
     - unpack-apk  
 
 packages:
