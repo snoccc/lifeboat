@@ -7,7 +7,7 @@ const File = (file) => {
     }
 
     return (
-        <div className='file ml-4' onClick={() => selectFile()}>{file.name}</div>
+        <div className='file ml-8' onClick={() => selectFile()}>{file.name}</div>
     )
 }
 

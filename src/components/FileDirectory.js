@@ -9,8 +9,8 @@ children.filter(file => file.type === "file").forEach(file => window.api.generat
 
 const FileDirectory = () => {
     return (
-        <div className='bg-side clr-gray'>
-            <div className='bg-main text-white'>{directory.name}</div>
+        <div className='bg-side clr-gray select-none flex-shrink-0 '>
+            <div className='bg-main text-white'>{directory && directory.name}</div>
 
             {children && children.map(child => (
                 <React.Fragment key={child.name}>
