@@ -1,6 +1,8 @@
 all:
   file:
-    - file "$file"
+    - file -b "$file"
+  mime-type:
+    - file -b --mime-type "$file"
   # strings:  
   #   - strings "$file"
   # binwalk:
