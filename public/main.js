@@ -28,7 +28,6 @@ app.whenReady().then(() => {
         }
     });
 
-    app.getFileIcon("a.txt").then(file => console.log(file.toDataURL()))
 });
 
 app.on('window-all-closed', () => {
@@ -62,19 +61,15 @@ function appendToFile(file, contents) {
         if (err) return;
 
         fs.writeFileSync(file, contents, (err) => {
-            if (err) {
-                console.log(err);
-            }
-            else {
-                console.log("file written successfully");
-            }
+            if (err) { console.log(err); return }
+
+            console.log("file written successfully");
 
         });
     });
 }
 
 async function runScripts(file) {
-    console.log("parsing file")
     parse(file);
 
     try {
@@ -85,13 +80,12 @@ async function runScripts(file) {
 
             fs.stat(outputFile, function (err, stat) {
                 if (err == null) {
-                    console.log('File exists - cmd');
                     return;
                 }
                 else {
                     const commands = all[script];
 
-                    commands.forEach(command => {                                   // needs to be relative input file
+                    commands.forEach(command => {
                         exec(command, { shell: "bash", env: { 'WSLENV': 'file', 'file': "public/" + file.relativePath } }, (error, stdout, stderr) => {
                             if (error) { console.log(`error: ${error.message}`); return; }
 
@@ -107,15 +101,15 @@ async function runScripts(file) {
     }
 }
 
-function getOutFile(file, script) {  // gets relative path to what it should read (for file in dir where file = <script>.out)
+function getOutFile(file, script) {
     return "public/data/" + file.relativePath + `/${script}.out`;
 }
 
 async function generateCards(file) {
-    await runScripts(file); // the file object
+    await runScripts(file);
 
     return new Promise(res => {
-        const dir = "public/data/" + file.relativePath;   // includes "/testdir"
+        const dir = "public/data/" + file.relativePath;
         const files = fs.readdirSync(dir);
 
         const result = [];
@@ -139,7 +133,6 @@ ipcMain.on('get-directory', (event) => {
     const dir = path.join(__dirname, 'testdir');
 
     const tree = dirTree(dir);
-    console.log("DIRTREE: " + JSON.stringify(tree))
     event.returnValue = tree;
 });
 
