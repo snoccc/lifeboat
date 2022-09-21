@@ -1,11 +1,10 @@
 let { app, BrowserWindow, ipcMain } = require("electron")
 const path = require('path');
 const fs = require('fs');
-const yaml = require('js-yaml');
 const { exec, execSync } = require("child_process");
+const { parse, YAML_CONFIG } = require('./parse')
 
 let win;
-const YAML_CONFIG = yaml.load(fs.readFileSync(path.join(__dirname, 'config.yml'), 'utf8'))
 
 const createWindow = () => {
     win = new BrowserWindow({
@@ -28,6 +27,8 @@ app.whenReady().then(() => {
             createWindow();
         }
     });
+
+    app.getFileIcon("a.txt").then(file => console.log(file.toDataURL()))
 });
 
 app.on('window-all-closed', () => {
@@ -49,6 +50,8 @@ function dirTree(filename) {
         info.children = fs.readdirSync(filename).map(child => dirTree(filename + '/' + child));
     } else {
         info.type = "file";
+        // const icon = app.getFileIcon(info.name);
+        // console.log(icon);
     }
 
     return info;
@@ -71,6 +74,9 @@ function appendToFile(file, contents) {
 }
 
 async function runScripts(file) {
+    console.log("parsing file")
+    parse(file);
+
     try {
         const all = YAML_CONFIG.all;
 
@@ -133,7 +139,7 @@ ipcMain.on('get-directory', (event) => {
     const dir = path.join(__dirname, 'testdir');
 
     const tree = dirTree(dir);
-    console.log(JSON.stringify(tree))
+    console.log("DIRTREE: " + JSON.stringify(tree))
     event.returnValue = tree;
 });
 

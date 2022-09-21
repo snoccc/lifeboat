@@ -12,10 +12,9 @@ mime-types:
     - exif
   # - repair
   audio:
-    - audio
+    - echo audio
   video:
-    - video
-  
+    - echo video
 extensions:
   .pcap:
     - networkminer
