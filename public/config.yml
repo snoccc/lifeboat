@@ -8,8 +8,10 @@ all:
   # binwalk:
   #   - binwalk "$file"
 mime-types:
+# contents for text files should come in preview
   image:
-    - exif
+    exif:
+    - exiftool "$file"
   # - repair
   audio:
     - echo audio
@@ -17,14 +19,13 @@ mime-types:
     - echo video
 extensions:
   .pcap:
-    - networkminer
-    - networkminer
-    - dlmkf
-    - aaa
-    - networkminer
-    - b
+    networkminer:
+      - networkminer
+    testList:
+      - testList
   .apk:
-    - unpack-apk  
+    unpacked:
+      - unpack-apk  
 
 packages:
   - find-outdated

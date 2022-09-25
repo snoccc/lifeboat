@@ -7,21 +7,11 @@ const YAML_CONFIG = yaml.load(fs.readFileSync(path.join(__dirname, 'config.yml')
 exports.YAML_CONFIG = YAML_CONFIG;
 
 exports.parse = function (file) {
-    const scripts = new Set();
     const extension = path.extname(file.name);
-    const mimetype = mime.lookup(file.name);
+    const mimetype = mime.lookup(file.name)?.split('/')[0];
 
-    if (extension && YAML_CONFIG['extensions'][extension]) {
-        YAML_CONFIG['extensions'][extension].forEach(script => scripts.add(script))
-    }
+    const extensionScripts = YAML_CONFIG['extensions'][extension]
+    const mimeScripts = YAML_CONFIG['mime-types'][mimetype];
 
-    if (mimetype) {
-        const type = mimetype.split('/')[0];
-        YAML_CONFIG['mime-types'][type]?.forEach(script => scripts.add(script))
-    }
-
-    // console.log(file.icon)
-    return scripts;
+    return { ...extensionScripts, ...mimeScripts };
 }
-
-// { name: "video.mp4", relativePath: "./video.mp4", "path": "/video.mp4" }
