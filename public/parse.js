@@ -8,10 +8,10 @@ exports.YAML_CONFIG = YAML_CONFIG;
 
 exports.parse = function (file) {
     const extension = path.extname(file.name);
-    const mimetype = mime.lookup(file.name)?.split('/')[0];
+    const mimetype = mime.lookup(file.name).toString().split('/')[0];
 
     const extensionScripts = YAML_CONFIG['extensions'][extension]
     const mimeScripts = YAML_CONFIG['mime-types'][mimetype];
 
-    return { ...extensionScripts, ...mimeScripts };
+    return { ...YAML_CONFIG.all, ...extensionScripts, ...mimeScripts };
 }

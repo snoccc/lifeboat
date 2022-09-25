@@ -70,20 +70,18 @@ function appendToFile(file, contents) {
 }
 
 async function runScripts(file) {
-    parse(file);
-
     try {
-        const all = YAML_CONFIG.all;
+        const scripts = parse(file);
 
-        for (const script in all) {
-            const outputFile = getOutFile(file, script) // needs to have the directories
+        for (const script in scripts) {
+            const outputFile = getOutFile(file, script)
 
             fs.stat(outputFile, function (err, stat) {
                 if (err == null) {
                     return;
                 }
                 else {
-                    const commands = all[script];
+                    const commands = scripts[script];
 
                     commands.forEach(command => {
                         exec(command, { shell: "bash", env: { 'WSLENV': 'file', 'file': "public/" + file.relativePath } }, (error, stdout, stderr) => {
