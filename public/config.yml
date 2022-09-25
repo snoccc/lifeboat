@@ -14,18 +14,23 @@ mime-types:
     - exiftool "$file"
   # - repair
   audio:
-    - echo audio
+    card:
+      - echo audio
   video:
-    - echo video
+    card:
+      - echo video
+  image/gif:
+    card:
+      - echo doesitwork
+    card2:
+      - echo bdoesitwork
 extensions:
   .pcap:
     networkminer:
-      - networkminer
-    testList:
-      - testList
+      - echo networkminer
   .apk:
     unpacked:
-      - unpack-apk  
+      - echo unpack-apk  
 
 packages:
   - find-outdated

@@ -15,7 +15,7 @@ const Main = () => {
     });
 
     return (
-        <main className='flex-shrink w-full min-w-0 flex flex-col text-xl'>
+        <main className='flex-shrink w-full h-screen min-w-0 flex flex-col text-xl overflow-y-scroll'>
             <div className='text-center'>{file && file.name}</div>
             {file && <FileContents file={file} key="file" />}
 
