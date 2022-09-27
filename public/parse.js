@@ -14,11 +14,7 @@ exports.parse = function (file) {
     const mimetype = mime.lookup(file.name).toString();
 
     const extensionScripts = EXTENSIONS[extension];
-
-    // maybe MIME_TYPES[filtered_entry]
-    const validMimes = Object.entries(MIME_TYPES).filter(([key, value]) => mimetype.startsWith(key)).map(([mime, scripts]) => MIME_TYPES[mime]);
-    const mimeScripts = Object.assign({}, ...validMimes);
-
+    const mimeScripts = getMimeScripts(mimetype);
     const extra = parseAdvanced({ mimetype: mimetype, ...file });
 
     console.log({ ...YAML_CONFIG.all, ...extensionScripts, ...mimeScripts, ...extra });
@@ -27,7 +23,7 @@ exports.parse = function (file) {
 
 function parseAdvanced(file) {
     // ex. analyze its an ELF file -> return ['pwn', whatever else]
-    // maybe just move this into config
+    // maybe just move filenames into config
 
     if (file.name === 'requirements.txt' || file.name === 'package.json') {
         return 'packages';
@@ -36,10 +32,18 @@ function parseAdvanced(file) {
     // crypto?
 
     /*
-        - detect ciphers 
+        - detect ciphers
+        - xortool 
     */
 
     // esoteric languages?
 
+    // c# exe -> dotpeek
+
     return { extra: file.mimetype };
+}
+
+function getMimeScripts(mimetype) {
+    const validMimes = Object.entries(MIME_TYPES).filter(([key, value]) => mimetype.startsWith(key)).map(([mime, scripts]) => MIME_TYPES[mime]);
+    return Object.assign({}, ...validMimes);
 }
