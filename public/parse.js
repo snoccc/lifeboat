@@ -18,7 +18,7 @@ exports.parse = function (file) {
     const mimeScripts = getMimeScripts(mimetype);
     const filenameScripts = getFilenameScripts(file.name);
 
-    const extra = parseAdvanced({ mimetype: mimetype, ...file }); // broken
+    // const extra = parseAdvanced({ mimetype: mimetype, ...file }); // broken
 
     console.log({ ...YAML_CONFIG.all, ...extensionScripts, ...mimeScripts, ...filenameScripts });
     return { ...YAML_CONFIG.all, ...extensionScripts, ...mimeScripts, ...filenameScripts }; // + ...extra
@@ -27,10 +27,6 @@ exports.parse = function (file) {
 function parseAdvanced(file) {
     // ex. analyze its an ELF file -> return ['pwn', whatever else]
     // maybe just move filenames into config
-
-    if (file.name === 'requirements.txt' || file.name === 'package.json') {
-        return 'packages';
-    }
 
     // crypto?
 
@@ -58,8 +54,6 @@ function getFilenameScripts(filename) {
 }
 
 /*
-{"exif":["exiftool \"$file\""]}
-{"card":["echo doesitwork"],"card2":["echo bdoesitwork"]}
 
 INPUT:
 
