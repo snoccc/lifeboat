@@ -31,16 +31,23 @@ extensions:
   .apk:
     unpacked:
       - echo unpack-apk  
+filenames:
+  requirements.txt:
+    python modules:
+      - echo python modules
+  package.json:
+    node modules:
+      - echo node modules
 
-packages:
-  - find-outdated
-pwn:
-  - checksec
-  - dogbolt-main
-  - get-template
-crypto:
-  - export2john
-  - detect-crypto
-  - xorsearch
-unknown:
-  - virustotal
+# packages:
+#   - find-outdated
+# pwn:
+#   - checksec
+#   - dogbolt-main
+#   - get-template
+# crypto:
+#   - export2john
+#   - detect-crypto
+#   - xorsearch
+# unknown:
+#   - virustotal

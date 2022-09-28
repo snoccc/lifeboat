@@ -8,6 +8,7 @@ exports.YAML_CONFIG = YAML_CONFIG;
 
 const MIME_TYPES = YAML_CONFIG['mime-types'];
 const EXTENSIONS = YAML_CONFIG['extensions'];
+const FILE_NAMES = YAML_CONFIG['filenames'];
 
 exports.parse = function (file) {
     const extension = path.extname(file.name);
@@ -15,6 +16,8 @@ exports.parse = function (file) {
 
     const extensionScripts = EXTENSIONS[extension];
     const mimeScripts = getMimeScripts(mimetype);
+    const filenameScripts = getFilenameScripts(file.name);
+
     const extra = parseAdvanced({ mimetype: mimetype, ...file });
 
     console.log({ ...YAML_CONFIG.all, ...extensionScripts, ...mimeScripts, ...extra });
@@ -39,6 +42,7 @@ function parseAdvanced(file) {
     // esoteric languages?
 
     // c# exe -> dotpeek
+    // dcode
 
     return { extra: file.mimetype };
 }
@@ -47,3 +51,33 @@ function getMimeScripts(mimetype) {
     const validMimes = Object.entries(MIME_TYPES).filter(([key, value]) => mimetype.startsWith(key)).map(([mime, scripts]) => MIME_TYPES[mime]);
     return Object.assign({}, ...validMimes);
 }
+
+function getFilenameScripts(filename) {
+    const validFilenames = Object.entries(FILE_NAMES).filter(([key, value]) => key === filename).map(([filename, scripts]) => FILE_NAMES[filename]);
+    return Object.assign({}, ...validFilenames);
+}
+
+/*
+INPUT:
+
+{
+  'requirements.txt': { 'python modules': [ 'echo python modules' ] },
+  'package.json': { 'node modules': [ 'echo node modules' ] }
+}
+
+OUTPUT:
+
+current:
+{
+    'python modules': ['echo python modules'],
+    'node modules': ['echo node modules'],
+}
+
+easier?:
+[
+    {name: 'python modules', scripts: ['echo python modules']},
+    {name: 'node modules', scripts: ['echo node modules']},
+]
+
+
+*/
