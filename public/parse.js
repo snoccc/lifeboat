@@ -18,9 +18,10 @@ exports.parse = function (file) {
     const mimeScripts = getMimeScripts(mimetype);
     const filenameScripts = getFilenameScripts(file.name);
 
+    console.log(filenameScripts);
     const extra = parseAdvanced({ mimetype: mimetype, ...file });
 
-    console.log({ ...YAML_CONFIG.all, ...extensionScripts, ...mimeScripts, ...extra });
+    console.log({ ...YAML_CONFIG.all, ...extensionScripts, ...mimeScripts });
     return { ...YAML_CONFIG.all, ...extensionScripts, ...mimeScripts }; // + ...extra
 }
 
@@ -48,16 +49,19 @@ function parseAdvanced(file) {
 }
 
 function getMimeScripts(mimetype) {
-    const validMimes = Object.entries(MIME_TYPES).filter(([key, value]) => mimetype.startsWith(key)).map(([mime, scripts]) => MIME_TYPES[mime]);
+    const validMimes = Object.keys(MIME_TYPES).filter(type => type === mimetype).map(type => MIME_TYPES[type]);
     return Object.assign({}, ...validMimes);
 }
 
 function getFilenameScripts(filename) {
-    const validFilenames = Object.entries(FILE_NAMES).filter(([key, value]) => key === filename).map(([filename, scripts]) => FILE_NAMES[filename]);
+    const validFilenames = Object.keys(FILE_NAMES).filter(name => name === filename).map(name => FILE_NAMES[name]);
     return Object.assign({}, ...validFilenames);
 }
 
 /*
+{"exif":["exiftool \"$file\""]}
+{"card":["echo doesitwork"],"card2":["echo bdoesitwork"]}
+
 INPUT:
 
 {
