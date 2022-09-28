@@ -18,11 +18,10 @@ exports.parse = function (file) {
     const mimeScripts = getMimeScripts(mimetype);
     const filenameScripts = getFilenameScripts(file.name);
 
-    console.log(filenameScripts);
-    const extra = parseAdvanced({ mimetype: mimetype, ...file });
+    const extra = parseAdvanced({ mimetype: mimetype, ...file }); // broken
 
-    console.log({ ...YAML_CONFIG.all, ...extensionScripts, ...mimeScripts });
-    return { ...YAML_CONFIG.all, ...extensionScripts, ...mimeScripts }; // + ...extra
+    console.log({ ...YAML_CONFIG.all, ...extensionScripts, ...mimeScripts, ...filenameScripts });
+    return { ...YAML_CONFIG.all, ...extensionScripts, ...mimeScripts, ...filenameScripts }; // + ...extra
 }
 
 function parseAdvanced(file) {

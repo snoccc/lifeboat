@@ -14,16 +14,14 @@ mime-types:
     - exiftool "$file"
   # - repair
   audio:
-    card:
+    audio:
       - echo audio
   video:
-    card:
+    video:
       - echo video
   image/gif:
-    card:
-      - echo doesitwork
-    card2:
-      - echo bdoesitwork
+    gif:
+      - echo gif
 extensions:
   .pcap:
     networkminer:
